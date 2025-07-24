@@ -1,3 +1,8 @@
 .env
 .azure
 node_modules
+
+# Bicep build artifacts (exclude .parameters.json files as they may be source files)
+infra/*.json
+!infra/*.parameters.json
+infra/resources/*.json
