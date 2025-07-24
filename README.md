@@ -10,6 +10,21 @@ Let's jump in and get the ToDo app up and running in Azure. When you are finishe
 
 <sup>Screenshot of the deployed ToDo app</sup>
 
+## Features
+
+This ToDo application includes:
+
+- **Full-stack web application** built with React.js frontend and Azure Functions backend
+- **Real-time data storage** using Azure Cosmos DB API for MongoDB
+- **Serverless architecture** with Azure Static Web Apps and Azure Functions
+- **Application monitoring** with Azure Application Insights
+- **Secure configuration** with optional Azure Key Vault integration
+- **CI/CD ready** with GitHub Actions workflow included
+- **Local development** support with Azure Static Web Apps CLI
+- **Infrastructure as Code** using Azure Bicep templates
+
+## Getting Started
+
 ### Prerequisites
 
 The following prerequisites are required to use this application. Please ensure that you have them all installed locally.
@@ -71,6 +86,14 @@ Click the web application URL to launch the ToDo app. Create a new collection an
 > - You can call `azd up` as many times as you like to both provision and deploy your solution, but you only need to provide the `--template` parameter the first time you call it to get the code locally. Subsequent `azd up` calls do not require the template parameter. If you do provide the parameter, all your local source code will be overwritten if you agree to overwrite when prompted.
 > - You can always create a new environment with `azd env new`.
 
+## Architecture Diagram
+
+This application utilizes a modern serverless architecture on Azure with the following components working together:
+
+<img src="assets/resources.png" width="60%" alt="Application architecture diagram"/>
+
+> This template provisions resources to an Azure subscription that you will select upon provisioning them. Please refer to the [Pricing calculator for Microsoft Azure](https://azure.microsoft.com/pricing/calculator/) and, if needed, update the included Azure resource definitions found in `infra/main.bicep` to suit your needs.
+
 ### Application Architecture
 
 This application utilizes the following Azure resources:
@@ -85,6 +108,51 @@ Here's a high level architecture diagram that illustrates these components. Noti
 <img src="assets/resources.png" width="60%" alt="Application architecture diagram"/>
 
 > This template provisions resources to an Azure subscription that you will select upon provisioning them. Please refer to the [Pricing calculator for Microsoft Azure](https://azure.microsoft.com/pricing/calculator/) and, if needed, update the included Azure resource definitions found in `infra/main.bicep` to suit your needs.
+
+## Resources
+
+### Azure Documentation
+- [Azure Static Web Apps Documentation](https://docs.microsoft.com/azure/static-web-apps/)
+- [Azure Cosmos DB API for MongoDB](https://docs.microsoft.com/azure/cosmos-db/mongodb/mongodb-introduction)
+- [Azure Functions Documentation](https://docs.microsoft.com/azure/azure-functions/)
+- [Azure Developer CLI Documentation](https://aka.ms/azure-dev/overview)
+
+### Learning Resources
+- [Azure Developer CLI Templates](https://azure.github.io/awesome-azd/)
+- [Static Web Apps Learning Path](https://docs.microsoft.com/learn/paths/azure-static-web-apps/)
+- [Serverless Applications Learning Path](https://docs.microsoft.com/learn/paths/create-serverless-applications/)
+
+### Community
+- [Azure Developer CLI GitHub](https://github.com/Azure/azure-dev)
+- [Azure Static Web Apps Community](https://github.com/Azure/static-web-apps)
+
+## Guidance
+
+<img src="assets/resources.png" width="60%" alt="Application architecture diagram"/>
+
+> This template provisions resources to an Azure subscription that you will select upon provisioning them. Please refer to the [Pricing calculator for Microsoft Azure](https://azure.microsoft.com/pricing/calculator/) and, if needed, update the included Azure resource definitions found in `infra/main.bicep` to suit your needs.
+
+## Guidance
+
+### Development Best Practices
+- **Security**: Always use managed identities for Azure service authentication
+- **Monitoring**: Enable Application Insights for comprehensive application monitoring
+- **Configuration**: Store sensitive configuration in Azure Key Vault
+- **Testing**: Test locally using the Azure Static Web Apps CLI before deploying
+- **Cost Management**: Monitor your Azure resource costs and set up alerts
+
+### Production Considerations
+- **Scaling**: Azure Static Web Apps and Functions scale automatically
+- **Backup**: Consider backup strategies for your Cosmos DB data
+- **Regional Deployment**: Deploy in multiple regions for high availability
+- **Security**: Review and implement Azure security best practices
+- **Performance**: Monitor application performance and optimize as needed
+
+### Troubleshooting Tips
+- Use Application Insights for debugging production issues
+- Check Azure Function logs for API-related problems
+- Verify connection strings and configuration settings
+- Ensure proper CORS configuration for frontend-backend communication
 
 ### Application Code
 
