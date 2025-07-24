@@ -33,12 +33,21 @@ param stagingEnvironmentPolicy string = 'Enabled'
 @description('Template Options for the static site. https://docs.microsoft.com/en-us/azure/templates/microsoft.web/staticsites?tabs=bicep#staticsitetemplateoptions')
 param templateProperties object = {}
 
+@description('Resource ID of the user-assigned managed identity.')
+param userAssignedIdentityId string = ''
+
 // https://docs.microsoft.com/en-us/azure/templates/microsoft.web/staticsites?tabs=bicep
 resource staticSite 'Microsoft.Web/staticSites@2022-03-01' = {
   name: staticSiteName
   location: location
   tags: union(tags, { 'azd-service-name': 'swa' })
   sku: sku
+  identity: !empty(userAssignedIdentityId) ? {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${userAssignedIdentityId}': {}
+    }
+  } : null
   properties: {
     provider: 'Custom'
     allowConfigFileUpdates: allowConfigFileUpdates

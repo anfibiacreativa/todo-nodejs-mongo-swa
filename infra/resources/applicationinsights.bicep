@@ -3,6 +3,9 @@ param location string
 param tags object
 param workspaceId string
 
+@description('Resource ID of the user-assigned managed identity.')
+param userAssignedIdentityId string = ''
+
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: 'appi-${applicationInsightsName}'
   location: location

@@ -21,6 +21,16 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   tags: tags
 }
 
+module managedIdentityResources 'resources/managed-identity.bicep' = {
+  name: 'managed-identity-resources'
+  scope: resourceGroup
+  params: {
+    identityName: 'id-${resourceToken}'
+    location: location
+    tags: tags
+  }
+}
+
 // TODO: make KeyVault optional
 var deployKeyVault = false
 
@@ -34,6 +44,7 @@ module keyVaultResources 'resources/key-vault.bicep' = if (deployKeyVault) {
     enableSoftDelete: false
     keyVaultName: 'kv-${resourceToken}'
     location: location
+    userAssignedIdentityId: managedIdentityResources.outputs.identityId
     roleAssignments: [
       {
         // https://docs.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli#azure-built-in-roles-for-key-vault-data-plane-operations
@@ -64,6 +75,7 @@ module swaResources 'resources/static-sites.bicep' = {
     }
     location: location
     staticSiteName: 'stapp-${resourceToken}'
+    userAssignedIdentityId: managedIdentityResources.outputs.identityId
     tags: tags
   }
 }
@@ -74,6 +86,7 @@ module storageResources 'resources/storage.bicep' = {
   params: {
     location: location
     storageName: 'st${resourceToken}'
+    userAssignedIdentityId: managedIdentityResources.outputs.identityId
     tags: tags
   }
 }
@@ -84,6 +97,7 @@ module logAnalyticsResources 'resources/log-analytics.bicep' = {
   params: {
     logAnalyticsName: 'log-${resourceToken}'
     location: location
+    userAssignedIdentityId: managedIdentityResources.outputs.identityId
     tags: tags
   }
 }
@@ -95,6 +109,7 @@ module applicationInsightsResources 'resources/applicationinsights.bicep' = if (
     applicationInsightsName: resourceToken
     location: location
     workspaceId: logAnalyticsResources.outputs.workspaceId
+    userAssignedIdentityId: managedIdentityResources.outputs.identityId
     tags: tags
   }
 }
@@ -105,6 +120,7 @@ module databaseResources 'resources/database.bicep' = {
   params: {
     databaseAccountName: 'cosmos-${resourceToken}'
     location: location
+    userAssignedIdentityId: managedIdentityResources.outputs.identityId
     tags: tags
   }
 }

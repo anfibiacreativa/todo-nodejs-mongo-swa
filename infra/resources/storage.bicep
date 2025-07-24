@@ -7,10 +7,19 @@ param location string
 @description('The name of the Storage account. e.g. stswa-storage')
 param storageName string
 
+@description('Resource ID of the user-assigned managed identity.')
+param userAssignedIdentityId string = ''
+
 resource storage 'Microsoft.Storage/storageAccounts@2021-09-01' = {
   name: storageName
   location: location
   tags: tags
+  identity: !empty(userAssignedIdentityId) ? {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${userAssignedIdentityId}': {}
+    }
+  } : null
   sku: {
     name: 'Standard_RAGRS'
   }
