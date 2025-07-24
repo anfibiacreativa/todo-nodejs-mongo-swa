@@ -7,12 +7,20 @@ param location string
 @description('The name of the CosmosDB account. e.g. cosmos-demo')
 param databaseAccountName string
 
+@description('Resource ID of the user-assigned managed identity.')
+param userAssignedIdentityId string = ''
+
 resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2021-10-15' = {
   name: databaseAccountName
   kind: 'MongoDB'
   location: location
   tags: tags
-  identity: {
+  identity: !empty(userAssignedIdentityId) ? {
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${userAssignedIdentityId}': {}
+    }
+  } : {
     type: 'None'
   }
   properties: {

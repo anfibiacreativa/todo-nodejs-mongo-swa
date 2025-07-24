@@ -7,6 +7,9 @@ param location string
 @description('The name of the log Analytics workspace. e.g. log-demo')
 param logAnalyticsName string
 
+@description('Resource ID of the user-assigned managed identity.')
+param userAssignedIdentityId string = ''
+
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2020-03-01-preview' = {
   name: logAnalyticsName
   location: location

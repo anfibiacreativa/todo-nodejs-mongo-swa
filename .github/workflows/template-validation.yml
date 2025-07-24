@@ -1,0 +1,60 @@
+name: Template Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Build web application
+      run: |
+        cd src/web
+        npm install
+        npm run build
+    
+    - name: Build API
+      run: |
+        cd src/api
+        npm install
+        npm run build
+    
+    - name: Lint web application
+      run: |
+        cd src/web
+        npm run lint
+    
+    - name: Test web application
+      run: |
+        cd src/web
+        npm test -- --coverage --watchAll=false
+    
+    - name: Validate Azure Bicep templates
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.30.0
+        inlineScript: |
+          # Validate bicep templates
+          az bicep build --file infra/main.bicep
+          az bicep build --file infra/resources/applicationinsights.bicep
+          az bicep build --file infra/resources/database.bicep
+          az bicep build --file infra/resources/key-vault.bicep
+          az bicep build --file infra/resources/log-analytics.bicep
+          az bicep build --file infra/resources/static-sites.bicep
+          az bicep build --file infra/resources/storage.bicep

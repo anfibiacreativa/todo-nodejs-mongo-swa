@@ -30,6 +30,9 @@ param roleAssignments array
 //   }
 // ]
 
+@description('Resource ID of the user-assigned managed identity.')
+param userAssignedIdentityId string = ''
+
 resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
   name: keyVaultName
   location: location
